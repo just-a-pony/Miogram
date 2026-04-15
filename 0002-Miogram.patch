@@ -1,0 +1,132 @@
+From ecfce7c5f893cc4cf5c68ea4f367868c1f20077d Mon Sep 17 00:00:00 2001
+From: Just_A_Pony <pony@just-a-pony.net>
+Date: Wed, 15 Apr 2026 14:00:11 +0800
+Subject: [PATCH 2/4] Miogram
+
+---
+ .../java/org/telegram/messenger/BuildVars.java  | 10 +++++-----
+ .../java/org/telegram/ui/DialogsActivity.java   | 17 ++++++++---------
+ TMessagesProj/src/main/res/values/strings.xml   |  4 ++--
+ gradle.properties                               |  5 +----
+ 4 files changed, 16 insertions(+), 20 deletions(-)
+
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java b/TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java
+index 4ed7e6491..2971f35d2 100644
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java
+@@ -21,7 +21,7 @@ public class BuildVars {
+     public static boolean DEBUG_VERSION = BuildConfig.DEBUG_VERSION;
+     public static boolean LOGS_ENABLED = BuildConfig.DEBUG_VERSION;
+     public static boolean DEBUG_PRIVATE_VERSION = BuildConfig.DEBUG_PRIVATE_VERSION;
+-    public static boolean USE_CLOUD_STRINGS = true;
++    public static boolean USE_CLOUD_STRINGS = false;
+     public static boolean CHECK_UPDATES = true;
+     public static boolean NO_SCOPED_STORAGE = Build.VERSION.SDK_INT <= 29;
+     public static String BUILD_VERSION_STRING = BuildConfig.BUILD_VERSION_STRING;
+@@ -30,8 +30,8 @@ public class BuildVars {
+     public static String APP_HASH = "014b35b6184100b085b0d0572f9b5103";
+ 
+     // SafetyNet key for Google Identity SDK, set it to empty to disable
+-    public static String SAFETYNET_KEY = "AIzaSyDqt8P-7F7CPCseMkOiVRgb1LY8RN1bvH8";
+-    public static String PLAYSTORE_APP_URL = "https://play.google.com/store/apps/details?id=org.telegram.messenger";
++    public static String SAFETYNET_KEY = "";
++    public static String PLAYSTORE_APP_URL = "https://play.google.com/store/apps/details?id=net.ponyworkshop.miogram";
+     public static String HUAWEI_STORE_URL = "https://appgallery.huawei.com/app/C101184875";
+     public static String GOOGLE_AUTH_CLIENT_ID = "760348033671-81kmi3pi84p11ub8hp9a1funsv0rn2p9.apps.googleusercontent.com";
+ 
+@@ -41,7 +41,7 @@ public class BuildVars {
+     public static boolean IS_BILLING_UNAVAILABLE = false;
+ 
+     // works only on official app ids, disable on your forks
+-    public static boolean SUPPORTS_PASSKEYS = true;
++    public static boolean SUPPORTS_PASSKEYS = false;
+ 
+     static {
+         if (ApplicationLoader.applicationContext != null) {
+@@ -82,7 +82,7 @@ public class BuildVars {
+     private static Boolean betaApp;
+     public static boolean isBetaApp() {
+         if (betaApp == null) {
+-            betaApp = ApplicationLoader.applicationContext != null && "org.telegram.messenger.beta".equals(ApplicationLoader.applicationContext.getPackageName());
++            betaApp = ApplicationLoader.applicationContext != null && "net.ponyworkshop.miogram.beta".equals(ApplicationLoader.applicationContext.getPackageName());
+         }
+         return betaApp;
+     }
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
+index fed111c5a..21479a8b6 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
+@@ -53,10 +53,8 @@ import android.os.Bundle;
+ import android.provider.Settings;
+ import android.text.Spannable;
+ import android.text.SpannableStringBuilder;
+-import android.text.Spanned;
+ import android.text.TextPaint;
+ import android.text.TextUtils;
+-import android.text.style.ImageSpan;
+ import android.util.LongSparseArray;
+ import android.util.Property;
+ import android.util.StateSet;
+@@ -186,7 +184,6 @@ import org.telegram.ui.Components.FragmentSearchField;
+ import org.telegram.ui.Components.ImageUpdater;
+ import org.telegram.ui.Components.PermissionRequest;
+ import org.telegram.ui.Components.UItem;
+-import org.telegram.ui.Components.blur3.Blur3HashImpl;
+ import org.telegram.ui.Components.blur3.BlurredBackgroundDrawableViewFactory;
+ import org.telegram.ui.Components.blur3.BlurredBackgroundWithFadeDrawable;
+ import org.telegram.ui.Components.blur3.DownscaleScrollableNoiseSuppressor;
+@@ -3457,12 +3454,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+             } else {
+                 statusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(null, dp(26));
+                 statusDrawable.center = true;
+-                logoDrawable = context.getResources().getDrawable(R.drawable.telegram_logo_2).mutate();
+-                logoDrawable.setBounds(0, dp(2), logoDrawable.getIntrinsicWidth(), dp(2) + logoDrawable.getIntrinsicHeight());
+-                logoDrawable.setColorFilter(getThemedColor(Theme.key_telegram_color_dialogsLogo), PorterDuff.Mode.MULTIPLY);
+-                SpannableStringBuilder ssb = new SpannableStringBuilder(getString(R.string.AppName));
+-                ssb.setSpan(new ImageSpan(logoDrawable), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+-                actionBar.setTitle(ssb, statusDrawable);
++                actionBar.setTitle(getString(R.string.AppName));
++                //actionBar.setTitle(TypefaceHelper.getTitleText(), statusDrawable);
++                //logoDrawable = context.getResources().getDrawable(R.drawable.telegram_logo_2).mutate();
++                //logoDrawable.setBounds(0, dp(2), logoDrawable.getIntrinsicWidth(), dp(2) + logoDrawable.getIntrinsicHeight());
++                //logoDrawable.setColorFilter(getThemedColor(Theme.key_telegram_color_dialogsLogo), PorterDuff.Mode.MULTIPLY);
++                //SpannableStringBuilder ssb = new SpannableStringBuilder(getString(R.string.AppName));
++                //ssb.setSpan(new ImageSpan(logoDrawable), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
++                //actionBar.setTitle(ssb, statusDrawable);
+                 updateStatus(UserConfig.getInstance(currentAccount).getCurrentUser(), false);
+             }
+             if (folderId == 0) {
+diff --git a/TMessagesProj/src/main/res/values/strings.xml b/TMessagesProj/src/main/res/values/strings.xml
+index afb924cc4..fd8a3fe84 100644
+--- a/TMessagesProj/src/main/res/values/strings.xml
++++ b/TMessagesProj/src/main/res/values/strings.xml
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <resources>
+-    <string name="AppName">Telegram</string>
+-    <string name="AppNameBeta">Telegram Beta</string>
++    <string name="AppName">Miogram</string>
++    <string name="AppNameBeta">Miogram Beta</string>
+     <string name="LanguageName">English</string>
+     <string name="English">English</string>
+     <string name="LanguageNameInEnglish">English</string>
+diff --git a/gradle.properties b/gradle.properties
+index 1f2ee28ee..84f2ad0f2 100644
+--- a/gradle.properties
++++ b/gradle.properties
+@@ -15,11 +15,8 @@
+ #Sat Mar 12 05:53:50 MSK 2016
+ APP_VERSION_CODE=6666
+ APP_VERSION_NAME=12.6.4
+-APP_PACKAGE=org.telegram.messenger
++APP_PACKAGE=net.ponyworkshop.miogram
+ IS_PRIVATE=false
+-RELEASE_KEY_PASSWORD=android
+-RELEASE_KEY_ALIAS=androidkey
+-RELEASE_STORE_PASSWORD=android
+ org.gradle.jvmargs=-Xmx4096M
+ org.gradle.daemon=true
+ org.gradle.parallel=true
+-- 
+2.53.0
+

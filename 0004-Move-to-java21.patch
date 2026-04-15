@@ -1,0 +1,35 @@
+From 6b89e9f729febadaf9a1be2d407050fe8eda371a Mon Sep 17 00:00:00 2001
+From: Just_A_Pony <pony@just-a-pony.net>
+Date: Wed, 15 Apr 2026 14:03:02 +0800
+Subject: [PATCH 4/4] Move to java21
+
+---
+ TMessagesProj/build.gradle | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/TMessagesProj/build.gradle b/TMessagesProj/build.gradle
+index 15e025a39..20cff0a57 100644
+--- a/TMessagesProj/build.gradle
++++ b/TMessagesProj/build.gradle
+@@ -92,8 +92,8 @@ android {
+     }
+ 
+     compileOptions {
+-        sourceCompatibility JavaVersion.VERSION_1_8
+-        targetCompatibility JavaVersion.VERSION_1_8
++        sourceCompatibility JavaVersion.VERSION_21
++        targetCompatibility JavaVersion.VERSION_21
+ 
+         coreLibraryDesugaringEnabled true
+     }
+@@ -229,7 +229,6 @@ def getProps(String propName) {
+         return "";
+     }
+ }
+-apply plugin: 'com.google.gms.google-services'
+ 
+ task checkVisibility {
+     doFirst {
+-- 
+2.53.0
+
