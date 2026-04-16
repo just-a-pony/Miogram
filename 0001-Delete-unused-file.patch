@@ -1,7 +1,7 @@
 From ebf17b5bd48971bb9d6904aa7af66eb054d1ec00 Mon Sep 17 00:00:00 2001
 From: Just_A_Pony <pony@just-a-pony.net>
 Date: Wed, 15 Apr 2026 07:13:32 +0800
-Subject: [PATCH 1/4] Delete unused file
+Subject: [PATCH 01/10] Delete unused file
 
 ---
  TMessagesProj/config/release.keystore         |  Bin 2623 -> 0 bytes

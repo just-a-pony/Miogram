@@ -1,0 +1,73 @@
+From 6df1ae9cdcc3b6d7c96703169a79fcf8cf433b20 Mon Sep 17 00:00:00 2001
+From: Just_A_Pony <pony@just-a-pony.net>
+Date: Fri, 17 Apr 2026 00:28:16 +0800
+Subject: [PATCH 07/10] Show joined date in members menu
+
+---
+ .../java/org/telegram/ui/ProfileActivity.java     | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
+index 920f6fbbc..3aaf27438 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
+@@ -7020,6 +7020,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+             boolean canEditAdmin;
+             boolean canRestrict;
+             boolean editingAdmin;
++            int joined;
+             boolean canEditTag;
+             final String rank;
+             final boolean isAdmin, isOwner;
+@@ -7045,6 +7046,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+                     canRestrict = false;
+                 }
+                 editingAdmin = channelParticipant instanceof TLRPC.TL_channelParticipantAdmin;
++                joined = channelParticipant.date;
+             } else {
+                 channelParticipant = null;
+                 rank = participant.rank;
+@@ -7055,6 +7057,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+                 canEditTag = ChatObject.canManageTags(currentChat) && (!isAdmin || !isOwner && participant.inviter_id == getUserConfig().getClientUserId() || self) || self && ChatObject.canManageMyTag(currentChat);
+                 canRestrict = currentChat.creator;
+                 editingAdmin = participant instanceof TLRPC.TL_chatParticipantAdmin;
++                joined = participant.date;
+             }
+             if (self) {
+                 canEditAdmin = false;
+@@ -7066,7 +7069,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+             }
+ 
+             boolean result = (canEditAdmin || canEditTag || canRestrict || allowKick);
+-            if (resultOnly || !result) {
++            if (resultOnly || !result && joined == 0) {
+                 return result;
+             }
+ 
+@@ -7083,7 +7086,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+                 bg = ((RecyclerListView) view.getParent()).getClipBackground(view);
+             }
+ 
+-            ItemOptions.makeOptions(this, view)
++            var options = ItemOptions.makeOptions(this, view)
+                     .setScrimViewBackground(bg)
+                     .addIf(!self, R.drawable.msg_discussion, getString(R.string.SendMessage), () -> {
+                         presentFragment(ChatActivity.of(user.id));
+@@ -7110,8 +7113,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+                     .addIf(allowKick, R.drawable.msg_remove, LocaleController.getString(R.string.KickFromGroup), true, () -> {
+                         kickUser(selectedUser, participant);
+                     })
+-                    .setMinWidth(190)
+-                    .show();
++                    .setMinWidth(190);
++            if (joined != 0) {
++                if (result) options.addGap();
++                options.addText(LocaleController.formatJoined(joined), 13);
++            }
++            options.show();
+         } else {
+             if (participant.user_id == getUserConfig().getClientUserId()) {
+                 return false;
+-- 
+2.53.0
+

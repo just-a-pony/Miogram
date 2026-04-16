@@ -1,7 +1,7 @@
 From c3aea617b34455eb29565b6a083f33f3fa322fac Mon Sep 17 00:00:00 2001
 From: Just_A_Pony <pony@just-a-pony.net>
 Date: Wed, 15 Apr 2026 14:02:06 +0800
-Subject: [PATCH 3/4] Remove SponsoredMessage
+Subject: [PATCH 03/10] Remove SponsoredMessage
 
 ---
  TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java | 4 ++--

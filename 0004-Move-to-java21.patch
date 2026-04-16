@@ -1,11 +1,14 @@
-From 6b89e9f729febadaf9a1be2d407050fe8eda371a Mon Sep 17 00:00:00 2001
+From 76d1fee6ac0768165d54b02c0daaa1ece20a9df6 Mon Sep 17 00:00:00 2001
 From: Just_A_Pony <pony@just-a-pony.net>
 Date: Wed, 15 Apr 2026 14:03:02 +0800
-Subject: [PATCH 4/4] Move to java21
+Subject: [PATCH 04/10] Move to java21
 
 ---
- TMessagesProj/build.gradle | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ TMessagesProj/build.gradle               | 5 ++---
+ TMessagesProj_App/build.gradle           | 4 ++--
+ TMessagesProj_AppStandalone/build.gradle | 4 ++--
+ TMessagesProj_AppTests/build.gradle      | 6 +++---
+ 4 files changed, 9 insertions(+), 10 deletions(-)
 
 diff --git a/TMessagesProj/build.gradle b/TMessagesProj/build.gradle
 index 15e025a39..20cff0a57 100644
@@ -30,6 +33,58 @@ index 15e025a39..20cff0a57 100644
  
  task checkVisibility {
      doFirst {
+diff --git a/TMessagesProj_App/build.gradle b/TMessagesProj_App/build.gradle
+index 68e09135c..7b98c6745 100644
+--- a/TMessagesProj_App/build.gradle
++++ b/TMessagesProj_App/build.gradle
+@@ -35,8 +35,8 @@ android {
+     }
+ 
+     compileOptions {
+-        sourceCompatibility JavaVersion.VERSION_1_8
+-        targetCompatibility JavaVersion.VERSION_1_8
++        sourceCompatibility JavaVersion.VERSION_21
++        targetCompatibility JavaVersion.VERSION_21
+ 
+         coreLibraryDesugaringEnabled true
+     }
+diff --git a/TMessagesProj_AppStandalone/build.gradle b/TMessagesProj_AppStandalone/build.gradle
+index b06efd6ac..9f7d1648b 100644
+--- a/TMessagesProj_AppStandalone/build.gradle
++++ b/TMessagesProj_AppStandalone/build.gradle
+@@ -37,8 +37,8 @@ android {
+     }
+ 
+     compileOptions {
+-        sourceCompatibility JavaVersion.VERSION_1_8
+-        targetCompatibility JavaVersion.VERSION_1_8
++        sourceCompatibility JavaVersion.VERSION_21
++        targetCompatibility JavaVersion.VERSION_21
+ 
+         coreLibraryDesugaringEnabled true
+     }
+diff --git a/TMessagesProj_AppTests/build.gradle b/TMessagesProj_AppTests/build.gradle
+index 2b0af1803..4328cb98c 100644
+--- a/TMessagesProj_AppTests/build.gradle
++++ b/TMessagesProj_AppTests/build.gradle
+@@ -44,14 +44,14 @@ android {
+     }
+ 
+     compileOptions {
+-        sourceCompatibility JavaVersion.VERSION_1_8
+-        targetCompatibility JavaVersion.VERSION_1_8
++        sourceCompatibility JavaVersion.VERSION_21
++        targetCompatibility JavaVersion.VERSION_21
+ 
+         coreLibraryDesugaringEnabled true
+     }
+ 
+     kotlinOptions {
+-        jvmTarget = "1.8"
++        jvmTarget = "21"
+     }
+ 
+     signingConfigs {
 -- 
 2.53.0
 

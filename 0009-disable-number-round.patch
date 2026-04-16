@@ -1,0 +1,52 @@
+From 032f783f5fd9823883fd2bf72876b04a0d974018 Mon Sep 17 00:00:00 2001
+From: Just_A_Pony <pony@just-a-pony.net>
+Date: Fri, 17 Apr 2026 01:13:41 +0800
+Subject: [PATCH 09/10] disable number round
+
+---
+ .../telegram/messenger/LocaleController.java  | 27 ++-----------------
+ 1 file changed, 2 insertions(+), 25 deletions(-)
+
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/LocaleController.java b/TMessagesProj/src/main/java/org/telegram/messenger/LocaleController.java
+index 00386c2c1..bbc9aebc3 100644
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/LocaleController.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/LocaleController.java
+@@ -2901,33 +2901,10 @@ public class LocaleController {
+     }
+ 
+     public static String formatShortNumber(int number, int[] rounded) {
+-        StringBuilder K = new StringBuilder();
+-        int lastDec = 0;
+-        int KCount = 0;
+-        while (number / 1000 > 0) {
+-            K.append("K");
+-            lastDec = (number % 1000) / 100;
+-            number /= 1000;
+-        }
+         if (rounded != null) {
+-            double value = number + lastDec / 10.0;
+-            for (int a = 0; a < K.length(); a++) {
+-                value *= 1000;
+-            }
+-            rounded[0] = (int) value;
+-        }
+-        if (lastDec != 0 && K.length() > 0) {
+-            if (K.length() == 2) {
+-                return String.format(Locale.US, "%d.%dM", number, lastDec);
+-            } else {
+-                return String.format(Locale.US, "%d.%d%s", number, lastDec, K.toString());
+-            }
+-        }
+-        if (K.length() == 2) {
+-            return String.format(Locale.US, "%dM", number);
+-        } else {
+-            return String.format(Locale.US, "%d%s", number, K.toString());
++            rounded[0] = number;
+         }
++        return String.valueOf(number);
+     }
+ 
+     public static String formatUserStatus(int currentAccount, TLRPC.User user) {
+-- 
+2.53.0
+

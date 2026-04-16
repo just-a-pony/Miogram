@@ -1,7 +1,7 @@
 From ecfce7c5f893cc4cf5c68ea4f367868c1f20077d Mon Sep 17 00:00:00 2001
 From: Just_A_Pony <pony@just-a-pony.net>
 Date: Wed, 15 Apr 2026 14:00:11 +0800
-Subject: [PATCH 2/4] Miogram
+Subject: [PATCH 02/10] Miogram
 
 ---
  .../java/org/telegram/messenger/BuildVars.java  | 10 +++++-----

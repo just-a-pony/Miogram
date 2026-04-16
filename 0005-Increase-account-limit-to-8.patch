@@ -1,0 +1,101 @@
+From 89d304f74d93219619d8ddf58f9b3d66ede42fac Mon Sep 17 00:00:00 2001
+From: Just_A_Pony <pony@just-a-pony.net>
+Date: Thu, 16 Apr 2026 08:11:05 +0800
+Subject: [PATCH 05/10] Increase account limit to 8
+
+---
+ TMessagesProj/jni/tgnet/ConnectionsManager.cpp        | 11 ++++++++++-
+ TMessagesProj/jni/tgnet/Defines.h                     |  4 ++--
+ .../main/java/org/telegram/messenger/UserConfig.java  | 11 +++--------
+ .../Components/Premium/LimitReachedBottomSheet.java   |  4 ++--
+ 4 files changed, 17 insertions(+), 13 deletions(-)
+
+diff --git a/TMessagesProj/jni/tgnet/ConnectionsManager.cpp b/TMessagesProj/jni/tgnet/ConnectionsManager.cpp
+index 32d590e85..4cf998568 100644
+--- a/TMessagesProj/jni/tgnet/ConnectionsManager.cpp
++++ b/TMessagesProj/jni/tgnet/ConnectionsManager.cpp
+@@ -150,9 +150,18 @@ ConnectionsManager& ConnectionsManager::getInstance(int32_t instanceNum) {
+             static ConnectionsManager instance3(3);
+             return instance3;
+         case 4:
+-        default:
+             static ConnectionsManager instance4(4);
+             return instance4;
++        case 5:
++            static ConnectionsManager instance5(5);
++            return instance5;
++        case 6:
++            static ConnectionsManager instance6(6);
++            return instance6;
++        case 7:
++        default:
++            static ConnectionsManager instance7(7);
++            return instance7;
+     }
+ }
+ 
+diff --git a/TMessagesProj/jni/tgnet/Defines.h b/TMessagesProj/jni/tgnet/Defines.h
+index 80c1c2a0e..813837d1d 100644
+--- a/TMessagesProj/jni/tgnet/Defines.h
++++ b/TMessagesProj/jni/tgnet/Defines.h
+@@ -23,11 +23,11 @@
+ #define DEFAULT_DATACENTER_ID INT_MAX
+ #define DC_UPDATE_TIME 60 * 60
+ #define TEMP_AUTH_KEY_EXPIRE_TIME 24 * 60 * 60
+-#define PROXY_CONNECTIONS_COUNT 4
++#define PROXY_CONNECTIONS_COUNT 8
+ #define DOWNLOAD_CONNECTIONS_COUNT 2
+ #define UPLOAD_CONNECTIONS_COUNT 4
+ #define CONNECTION_BACKGROUND_KEEP_TIME 10000
+-#define MAX_ACCOUNT_COUNT 5
++#define MAX_ACCOUNT_COUNT 8
+ #define USE_DELEGATE_HOST_RESOLVE
+ 
+ #define USE_IPV4_ONLY 0
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/UserConfig.java b/TMessagesProj/src/main/java/org/telegram/messenger/UserConfig.java
+index 414057b94..e199f11e0 100644
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/UserConfig.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/UserConfig.java
+@@ -24,8 +24,8 @@ import java.util.Arrays;
+ public class UserConfig extends BaseController {
+ 
+     public static int selectedAccount;
+-    public final static int MAX_ACCOUNT_DEFAULT_COUNT = 3;
+-    public final static int MAX_ACCOUNT_COUNT = 4;
++    public final static int MAX_ACCOUNT_DEFAULT_COUNT = 8;
++    public final static int MAX_ACCOUNT_COUNT = 8;
+ 
+     private final Object sync = new Object();
+     private volatile boolean configLoaded;
+@@ -112,12 +112,7 @@ public class UserConfig extends BaseController {
+     }
+ 
+     public static boolean hasPremiumOnAccounts() {
+-        for (int a = 0; a < MAX_ACCOUNT_COUNT; a++) {
+-            if (AccountInstance.getInstance(a).getUserConfig().isClientActivated() && AccountInstance.getInstance(a).getUserConfig().getUserConfig().isPremium()) {
+-                return true;
+-            }
+-        }
+-        return false;
++        return true;
+     }
+ 
+     public static int getMaxAccountCount() {
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/Premium/LimitReachedBottomSheet.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/Premium/LimitReachedBottomSheet.java
+index eebce350d..8e48a21cb 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Components/Premium/LimitReachedBottomSheet.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/Premium/LimitReachedBottomSheet.java
+@@ -2451,8 +2451,8 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
+             limitParams.descriptionStrPremium = LocaleController.formatString("LimitReachedFileSizePremium", R.string.LimitReachedFileSizePremium, "4 GB");
+             limitParams.descriptionStrLocked = LocaleController.formatString("LimitReachedFileSizeLocked", R.string.LimitReachedFileSizeLocked, "2 GB");
+         } else if (type == TYPE_ACCOUNTS) {
+-            limitParams.defaultLimit = 3;
+-            limitParams.premiumLimit = 4;
++            limitParams.defaultLimit = 8;
++            limitParams.premiumLimit = 8;
+             limitParams.icon = R.drawable.msg_limit_accounts;
+             limitParams.descriptionStr = LocaleController.formatString("LimitReachedAccounts", R.string.LimitReachedAccounts, limitParams.defaultLimit, limitParams.premiumLimit);
+             limitParams.descriptionStrPremium = LocaleController.formatString("LimitReachedAccountsPremium", R.string.LimitReachedAccountsPremium, limitParams.premiumLimit);
+-- 
+2.53.0
+
