@@ -73,20 +73,7 @@ public class LocaleController {
 
     private volatile FastDateFormat formatterDay;
     public FastDateFormat getFormatterDay() {
-        if (formatterDay == null) {
-            synchronized (this) {
-                if (formatterDay == null) {
-                    final Locale locale = currentLocale == null ? Locale.getDefault() : currentLocale;
-                    String lang = locale.getLanguage();
-                    if (lang == null) {
-                        lang = "en";
-                    }
-                    lang = lang.toLowerCase();
-                    formatterDay = createFormatter(lang.toLowerCase().equals("ar") || lang.toLowerCase().equals("ko") ? locale : Locale.US, is24HourFormat ? getStringInternal("formatterDay24H", R.string.formatterDay24H) : getStringInternal("formatterDay12H", R.string.formatterDay12H), is24HourFormat ? "HH:mm" : "h:mm a");
-                }
-            }
-        }
-        return formatterDay;
+        return getFormatterDayWithSeconds();
     }
 
     private volatile FastDateFormat formatterDayWithSeconds;
