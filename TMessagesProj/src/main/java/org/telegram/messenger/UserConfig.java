@@ -24,8 +24,8 @@ import java.util.Arrays;
 public class UserConfig extends BaseController {
 
     public static int selectedAccount;
-    public final static int MAX_ACCOUNT_DEFAULT_COUNT = 3;
-    public final static int MAX_ACCOUNT_COUNT = 4;
+    public final static int MAX_ACCOUNT_DEFAULT_COUNT = 8;
+    public final static int MAX_ACCOUNT_COUNT = 8;
 
     private final Object sync = new Object();
     private volatile boolean configLoaded;
@@ -112,12 +112,7 @@ public class UserConfig extends BaseController {
     }
 
     public static boolean hasPremiumOnAccounts() {
-        for (int a = 0; a < MAX_ACCOUNT_COUNT; a++) {
-            if (AccountInstance.getInstance(a).getUserConfig().isClientActivated() && AccountInstance.getInstance(a).getUserConfig().getUserConfig().isPremium()) {
-                return true;
-            }
-        }
-        return false;
+        return true;
     }
 
     public static int getMaxAccountCount() {
