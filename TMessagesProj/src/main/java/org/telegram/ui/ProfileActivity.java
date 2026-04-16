@@ -7020,6 +7020,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             boolean canEditAdmin;
             boolean canRestrict;
             boolean editingAdmin;
+            int joined;
             boolean canEditTag;
             final String rank;
             final boolean isAdmin, isOwner;
@@ -7045,6 +7046,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     canRestrict = false;
                 }
                 editingAdmin = channelParticipant instanceof TLRPC.TL_channelParticipantAdmin;
+                joined = channelParticipant.date;
             } else {
                 channelParticipant = null;
                 rank = participant.rank;
@@ -7055,6 +7057,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 canEditTag = ChatObject.canManageTags(currentChat) && (!isAdmin || !isOwner && participant.inviter_id == getUserConfig().getClientUserId() || self) || self && ChatObject.canManageMyTag(currentChat);
                 canRestrict = currentChat.creator;
                 editingAdmin = participant instanceof TLRPC.TL_chatParticipantAdmin;
+                joined = participant.date;
             }
             if (self) {
                 canEditAdmin = false;
@@ -7066,7 +7069,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
 
             boolean result = (canEditAdmin || canEditTag || canRestrict || allowKick);
-            if (resultOnly || !result) {
+            if (resultOnly || !result && joined == 0) {
                 return result;
             }
 
@@ -7083,7 +7086,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 bg = ((RecyclerListView) view.getParent()).getClipBackground(view);
             }
 
-            ItemOptions.makeOptions(this, view)
+            var options = ItemOptions.makeOptions(this, view)
                     .setScrimViewBackground(bg)
                     .addIf(!self, R.drawable.msg_discussion, getString(R.string.SendMessage), () -> {
                         presentFragment(ChatActivity.of(user.id));
@@ -7110,8 +7113,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     .addIf(allowKick, R.drawable.msg_remove, LocaleController.getString(R.string.KickFromGroup), true, () -> {
                         kickUser(selectedUser, participant);
                     })
-                    .setMinWidth(190)
-                    .show();
+                    .setMinWidth(190);
+            if (joined != 0) {
+                if (result) options.addGap();
+                options.addText(LocaleController.formatJoined(joined), 13);
+            }
+            options.show();
         } else {
             if (participant.user_id == getUserConfig().getClientUserId()) {
                 return false;
