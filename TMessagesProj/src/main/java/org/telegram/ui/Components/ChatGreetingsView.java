@@ -234,7 +234,7 @@ public class ChatGreetingsView extends LinearLayout {
                 }
             }
         } else {
-            addView(titleView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 20, 6, 20, 6));
+            addView(titleView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 20, -2, 20, 6));
             addView(descriptionView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 20, 6, 20, 6));
             addView(stickerContainer, LayoutHelper.createLinear(112, 112, Gravity.CENTER_HORIZONTAL, 16, 10, 16, 16));
         }
@@ -421,20 +421,9 @@ public class ChatGreetingsView extends LinearLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         ignoreLayot = true;
-        if (!preview) {
-            descriptionView.setVisibility(View.VISIBLE);
-        }
-        stickerToSendView.setVisibility(View.VISIBLE);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if (getMeasuredHeight() > MeasureSpec.getSize(heightMeasureSpec) && !preview) {
-            descriptionView.setVisibility(View.GONE);
-            stickerToSendView.setVisibility(View.GONE);
-        } else {
-            if (!preview) {
-                descriptionView.setVisibility(View.VISIBLE);
-            }
-            stickerToSendView.setVisibility(View.VISIBLE);
-        }
+        descriptionView.setVisibility(View.GONE);
+        stickerContainer.setVisibility(View.GONE);
         ignoreLayot = false;
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
